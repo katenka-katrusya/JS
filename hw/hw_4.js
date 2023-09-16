@@ -44,9 +44,10 @@ console.log('Перемешанный массив =', array);
 // Если такой элемент не будет найден, то выведите соответствующее сообщение на экран.
 let index = 5;
 
-array.forEach((element, index) =>
-  console.log(`Индекс: ${index}, Элемент: ${element}`)
+array.forEach((item, index) =>
+  console.log(`Индекс: ${index}, Элемент: ${item}`)
 );
+
 array[index] >= 0
   ? console.log(`Под индексом ${index} содержится элемент ${array[index]}`)
   : console.log(`Индекс ${index} отсутствует`);
@@ -57,3 +58,23 @@ array[index] >= 0
 // array[index] >= 0
 //   ? console.log(`Под индексом ${index} содержится элемент ${array[index]}`)
 //   : console.log(`Индекс ${index} отсутствует`);
+
+// Задача 4. Даны два массива:
+// arr1 = [2, 2, 17, 21, 45, 12, 54, 31, 53]
+// arr2 = [12, 44, 23, 5]
+// Напишите программу, которая будет объединять два массива: arr1 и arr2.
+// Результат объединения нужно вывести в консоль с помощью команды console.log в таком виде:
+// [2, 2, 17, 21, 45, 12, 54, 31, 53, 12, 44, 23, 5]
+
+let arr1 = [2, 2, 17, 21, 45, 12, 54, 31, 53];
+let arr2 = [12, 44, 23, 5];
+
+// 1 способ
+let result = [...arr1, ...arr2];
+console.log(result);
+
+// 2 способ
+for (let i = 0; i < arr2.length; i++) {
+  arr1.push(arr2[i]);
+}
+console.log(arr1);
