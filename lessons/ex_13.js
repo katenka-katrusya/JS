@@ -25,7 +25,7 @@ let obj = {};
 
 let object = (arr1, arr2) => {
   for (let i = 0; i < arr1.length; i++) {
-    obj[keys[i]] = values[i];
+    obj[arr1[i]] = arr2[i];
   }
   return obj;
 };

@@ -1,0 +1,71 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 15px 15px;
+}
+
+.card {
+  max-width: 200px;
+  padding: 40px 15px;
+  margin-bottom: 15px;
+  text-align: center;
+  border: 1px solid #d6e9c6;
+  border-radius: 10px;
+  color: #3c763d;
+  background-color: #dff0d8;
+}
+
+.title {
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+/* task_3, task_4 */
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  max-width: 200px;
+  padding: 40px 15px;
+  text-align: center;
+  border: 1px solid #b2cff6;
+  border-radius: 10px;
+  color: #052466;
+  background-color: #bcdcff;
+}
+
+.item:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+/* task_4 */
+.btn {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  border: 1px solid #003377;
+  border-radius: 5px;
+  background-color: #bcdcff;
+  color: #052466;
+}

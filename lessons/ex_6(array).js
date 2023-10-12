@@ -42,6 +42,7 @@ let multipleOfFive = (arr) => {
 let average = (arr) => {
   let sum = 0;
   let res = 0;
+
   for (let el of arr) {
     sum += el;
     res = sum / arr.length;
@@ -109,3 +110,24 @@ let employees = (arr) => {
 };
 
 employees(users);
+
+// многомерные массивы.
+// Обращаясь к каждому элементу массива найдите сумму всех его элементов.
+let arr = [
+  [1, 2],
+  [3, 4],
+  [5, 6],
+];
+
+let res = 0;
+
+function array(arr) {
+  for (let el of arr) {
+    for (let el2 of el) {
+      res += el2;
+    }
+  }
+
+  return res;
+}
+console.log(array(arr));

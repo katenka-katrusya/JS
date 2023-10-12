@@ -26,7 +26,7 @@ let ram = {
 let computer = {
   price: 10000,
   ...motherBoard,
-  // св-во socket из щбъекта motherBoard будет заменено на такое же из объекта cpu
+  // св-во socket из объекта motherBoard будет заменено на такое же из объекта cpu
   ...cpu,
   ...videoCard,
   ...ram,
