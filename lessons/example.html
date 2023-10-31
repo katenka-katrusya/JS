@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script defer src="academy.js"></script>
+</head>
+<body>
+<style>
+    td {
+        border: 1px solid;
+        width: 90px;
+        height: 90px;
+        text-align: center;
+        border-color: black;
+    }
+
+    .hideText {
+        color: white;
+    }
+</style>
+
+<table>
+    <td class="hideText">JavaScript</td>
+    <td class="hideText">React</td>
+    <td class="hideText">HTML</td>
+</table>
+
+<script>
+    const getTable = document.querySelector('table');
+
+    getTable.addEventListener('click', function (event) {
+        if (event.target.closest('.hideText')) {
+            event.target.classList.remove('hideText');
+        }
+    });
+</script>
+</body>
+</html>
