@@ -166,6 +166,3 @@ function PlayingField(count) {
 }
 
 PlayingField();
-
-
-
