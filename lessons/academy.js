@@ -327,6 +327,124 @@ var renderCards = function (product) {
 renderCards(cardsData);
 
 
+/* Техническое задание
+
+Нужно запрограммировать взаимодействие с пользователем.
+
+В разметке есть попап (класс 'popup').
+
+Клик по кнопке «Показать подробности» (класс 'button-show') должен вызвать показ окна на странице. У попапа должен появиться класс 'popup--open'.
+
+Клик крестику в теле попапа (класс 'button-hide') должен спрятать окно со страницы. Для этого нужно удалить класс 'popup--open' у окна.
+
+Кроме этого, если окно на странице, а пользователь нажал клавишу ESC, попап тоже должен исчезнуть. Закрытие попапа должно срабатывать только по этой клавише, нажатие на другие клавиши не должны влиять на положение всплывающего окна.
+
+И не забывай, что кнопка «Показать подробности» свёрстана ссылкой. Не забудь отменить переход по этой ссылке.
+
+*/
+
+var popup = document.querySelector('.popup');
+var buttonShow = document.querySelector('.button-show');
+var buttonHide = popup.querySelector('.button-hide');
+
+buttonShow.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    popup.classList.add('popup--open');
+});
+
+buttonHide.addEventListener('click', function () {
+    popup.classList.remove('popup--open');
+});
+
+document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 27) {
+        popup.classList.remove('popup--open');
+    }
+});
+
+// ИГРА В КОСТИ
+let gameRuleset = {
+    diceNumber: 5,
+    maxAttempts: 10
+};
+
+let firstCat = {
+    name: 'Кекс',
+    points: 0
+};
+
+let secondCat = {
+    name: 'Рудольф',
+    points: 0
+};
+
+let thirdCat = {
+    name: 'Рокки',
+    points: 0
+};
+
+let cats = [firstCat, secondCat, thirdCat];
+
+let runGame = function (ruleset, players) {
+    for (let currentAttempt = 1; currentAttempt <= ruleset.maxAttempts; currentAttempt++) {
+        for (let i = 0; i < players.length; i++) {
+            let throwResult = keks.throwDice(ruleset.diceNumber, ruleset.diceNumber * 6);
+            players[i].points += throwResult;
+            console.log(players[i].name + ' выбросил ' + players[i].points);
+        }
+    }
+    return players;
+};
+
+let getWinners = function (players) {
+    let winners = [];
+    let max = players[0];
+
+    for (let i = 0; i < players.length; i++) {
+        let currentPlayer = players[i];
+        if (currentPlayer.points > max.points) {
+            max = currentPlayer;
+            winners = [max];
+        } else {
+            if (currentPlayer.points === max.points) {
+                winners.push(currentPlayer);
+            }
+        }
+    }
+
+    return winners;
+};
+
+
+let printWinners = function (players, winners) {
+    if (players.length === winners.length) {
+        console.log('Все коты как на подбор!');
+        return;
+    }
+
+    let message = 'Победил ';
+
+    if (winners.length > 1) {
+        message = 'Победили ';
+    }
+
+    for (let i = 0; i < winners.length; i++) {
+        if (i >= 1) {
+            message += ', ';
+            message += winners[i].name;
+        }
+    }
+
+    message += ' с количеством очков: ' + winners[0].points;
+
+    console.log(message);
+};
+
+cats = runGame(gameRuleset, cats);
+let tops = getWinners(cats);
+printWinners(cats, tops);
+
+
 
 
 

@@ -1,5 +1,5 @@
 .container {
-  max-width: 500px;
+  /*max-width: 500px;*/
 }
 
 .scene {
@@ -39,8 +39,4 @@
 
 .card.is-flipped {
   transform: rotateY(180deg);
-}
-
-.hide {
-  opacity: 0;
 }

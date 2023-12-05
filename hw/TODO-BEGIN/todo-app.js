@@ -30,7 +30,8 @@
 
         // Устанавливаем атрибут disabled, когда поле ввода пустое
         input.addEventListener('input', () => {
-            input.value === '' ? (button.disabled = true) : (button.disabled = false);
+            // не знаю как задизейблить кнопку отправки дела, если поле состоит только из пробелов, кроме как использовать trim()
+            input.value.trim() === '' ? (button.disabled = true) : (button.disabled = false);
         });
 
         return {
@@ -75,10 +76,23 @@
         // добавляем обработчики на кнопки
         doneButton.addEventListener('click', function () {
             item.classList.toggle('list-group-item-success');
+
+            // изменяем done
+            for (let element of arrayOfCases) {
+                if (element.id === obj.id) element.done = !element.done;
+            }
+            saveList(arrayOfCases, listName);
         });
         deleteButton.addEventListener('click', function () {
             if (confirm('Вы уверены?')) {
                 item.remove();
+
+                // удаляем дело по ID
+                for (let i = 0; i < arrayOfCases.length; i++) {
+                    if (arrayOfCases[i].id === obj.id) arrayOfCases.splice(i, 1);
+                }
+
+                saveList(arrayOfCases, listName);
             }
         });
 
@@ -95,10 +109,23 @@
         };
     }
 
-    // // создаём массив дел
-    let arrayOfCases = [];
 
-    function createTodoApp(container, title = 'Список дел') {
+    // создаём массив дел
+    let arrayOfCases = [];
+    let listName = '';
+
+    // получаем Id
+    function getId(arr) {
+        if (arr.length === 0) return 1;
+        let maxId = Math.max(...arr.map(el => el.id));
+        return maxId + 1;
+    }
+
+    function saveList(array, keyName) {
+        localStorage.setItem(keyName, JSON.stringify(array));
+    }
+
+    function createTodoApp(container, title = 'Список дел', keyName) {
         let todoAppTitle = createAppTitle(title);
         let todoItemForm = createTodoItemForm();
         let todoList = createTodoList();
@@ -107,10 +134,21 @@
         container.append(todoItemForm.form);
         container.append(todoList);
 
+        // делаем глобальную переменную для доступа ко всей программе
+        listName = keyName;
+
+        // расшифровываем localStorage
+        let localData = localStorage.getItem(listName);
+
+        if (localData !== null && localData !== '') arrayOfCases = JSON.parse(localData);
+
+        for (let element of arrayOfCases) {
+            let todoItem = createTodoItem(element);
+            todoList.append(todoItem.item);
+        }
+
         // браузер создаёт событие submit на форме по нажатию Enter или на кнопку создания дела
         todoItemForm.form.addEventListener('submit', function (e) {
-            // эта строчка небходима, чтобы предотвратить стандартное действие браузера
-            // в данном случае мы не хотим, чтобы страница перезагружалась при отправке формы
             e.preventDefault();
 
             // игнорируем создание элемента, если пользователь ничего не ввёл в поле
@@ -120,20 +158,15 @@
 
             let newCase = {
                 id: getId(arrayOfCases),
-                name: todoItemForm.input.value,
+                name: todoItemForm.input.value.trim(),
                 done: false,
             };
-            // добавляем дела в созданный массив
-            arrayOfCases.push(newCase);
-            console.log(arrayOfCases);
-
-            function getId(arr) {
-                if (arr.length === 0) return 1;
-                let maxId = Math.max(...arr.map(el => el.id));
-                return maxId += 1;
-            }
 
             let todoItem = createTodoItem(newCase);
+
+            // добавляем дела в созданный массив
+            arrayOfCases.push(newCase);
+            saveList(arrayOfCases, listName);
 
             // создаём и добавляем в список новое дело с названием из поля для ввода
             todoList.append(todoItem.item);
