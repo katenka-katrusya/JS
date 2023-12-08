@@ -1,36 +1,39 @@
 'use strict';
 
 (() => {
-  function Student(name, surname, patronymic, birthday, startDate, faculty) {
+  class Student {
+    constructor(name, surname, patronymic, birthday, startDate, faculty) {
+      this.name = name;
+      this.surname = surname;
+      this.patronymic = patronymic;
+      this.birthday = birthday;
+      this.startDate = startDate;
+      this.faculty = faculty;
+    }
 
-    this.name = name;
-    this.surname = surname;
-    this.patronymic = patronymic;
-    this.birthday = birthday;
-    this.startDate = startDate;
-    this.faculty = faculty;
-
-    this.getFullName = function () {
+    getFullName() {
       return `${this.surname} ${this.name} ${this.patronymic}`;
-    };
+    }
 
-    this.getAge = function () {
+    getAge() {
       return `${formatBirthday(this.birthday)} (${calculateAge(this.birthday)})`;
-    };
+    }
 
-    this.getYearsOfEducation = function () {
+    getYearsOfEducation() {
       return `${calculateEducationYears(this.startDate)}`;
-    };
+    }
   }
 
-  const studentsList = [
-    new Student('Анна', 'Иванова', 'Сергеевна', '1998-04-10', '2023', 'Журналистика'),
-    new Student('Евгений', 'Смирнов', 'Александрович', '2000-06-25', '2018', 'Экономика'),
-    new Student('Мария', 'Кузнецова', 'Александровна', '1990-03-05', '2020', 'Информационных технологий'),
+  let studentsList = [
+    new Student('Анна', 'Иванова', 'Сергеевна', '1998-04-10', '2023', 'Журналистики'),
+    new Student('Евгений', 'Смирнов', 'Александрович', '2000-06-25', '2018', 'Экономики'),
+    new Student('Мария', 'Кузнецова', 'Евгеньевна', '1990-03-05', '2020', 'Информационных технологий'),
     new Student('Екатерина', 'Соколова', 'Владимировна', '1993-12-30', '2022', 'Информационных технологий'),
     new Student('Дмитрий', 'Петров', 'Андреевич', '1993-10-17', '2021', 'Исторический'),
+    new Student('Дмитрий', 'Носов', 'Андреевич', '1990-05-02', '2015', 'Исторический'),
+    new Student('Александра', 'Крылова', 'Николаевна', '2001-05-02', '2023', 'Филологический'),
+    new Student('Маргарита', 'Евтушенко', 'Олеговна', '1999-05-02', '2021', 'Физический'),
   ];
-
 
   // получаю текущую дату
   function getTodayDate() {
@@ -88,14 +91,14 @@
     }
   }
 
-  // курс +1, если сентябрь наступил (учебный год с сентября)
   function calculateEducationYears(startYear) {
     const numberStartYear = Number(startYear);
     const endDate = numberStartYear + 4;
     const todayDate = getTodayDate();
     const yearsDiff = todayDate.year - numberStartYear;
 
-    if (yearsDiff === 0 || (yearsDiff > 0) && (yearsDiff < 4) && (todayDate.month >= 9)) {
+    // курс +1, если сентябрь наступил (учебный год с сентября)
+    if (yearsDiff === 0 || yearsDiff > 0 && yearsDiff < 4 && todayDate.month >= 9) {
       return `${numberStartYear}-${endDate} (${yearsDiff + 1} курс)`;
     } else {
       return `${numberStartYear}-${endDate} (закончил)`;
@@ -111,8 +114,6 @@
     startDateInput.max = getTodayDate().year.toString();
     return {birthdayInput, startDateInput};
   }
-
-  addMaxAttribute();
 
   // Этап 3. Создайте функцию вывода одного студента в таблицу. У функции должен быть один аргумент - объект студента.
 
@@ -255,52 +256,52 @@
 
         studentsList.push(newStudent);
         renderStudentsTable(studentsList);
+        saveToLocalStorage();
         form.reset();
       }
     });
   }
 
-  submitOnForm();
-
   // Этап 6. Создайте функцию сортировки массива студентов и добавьте события кликов на соответствующие колонки.
   function sortStudentsTable() {
     const table = document.querySelector('table');
-    let dir = false;
+    let direction = false;
 
     table.addEventListener('click', function ({target}) {
       if (target.tagName !== 'TH') return;
 
       const columnId = target.id;
-      dir = !dir;
+      direction = !direction;
 
-      sortTable(columnId, dir);
+      sortTable(columnId, direction);
     });
 
-    function sortTable(columnId, dir) {
-      let copyListStudent;
+    function sortTable(columnId, direction) {
+      let copyStudentsList;
 
       switch (columnId) {
         case 'fullNameStudent':
-          copyListStudent = sortingOrder('surname', dir);
+          copyStudentsList = sortingOrder('surname', direction);
           break;
         case 'facultyStudent':
-          copyListStudent = sortingOrder('faculty', dir);
+          copyStudentsList = sortingOrder('faculty', direction);
           break;
         case 'birthdayStudent':
-          copyListStudent = sortingOrder('birthday', dir);
+          copyStudentsList = sortingOrder('birthday', direction);
           break;
         case 'yearsEducationStudent':
-          copyListStudent = sortingOrder('startDate', dir);
+          copyStudentsList = sortingOrder('startDate', direction);
           break;
         default:
           return;
       }
-      renderStudentsTable(copyListStudent);
+      renderStudentsTable(copyStudentsList);
     }
 
-    function sortingOrder(key, dir) {
-      // key - название переменной для сортировки, также копируем исходный массив
-      if (dir) {
+    function sortingOrder(key, direction) {
+
+      // key - название переменной (name, surname и т.д.), также копируем исходный массив slice()
+      if (direction) {
         return studentsList.slice().sort((a, b) => a[key].localeCompare(b[key]));
       } else {
         return studentsList.slice().sort((a, b) => b[key].localeCompare(a[key]));
@@ -308,9 +309,58 @@
     }
   }
 
-  sortStudentsTable();
-
-
   // Этап 7. Создайте функцию фильтрации массива студентов и добавьте события для элементов формы.
+  function filterStudents() {
+    const fullNameSearch = document.getElementById('fullNameSearch');
+    const facultySearch = document.getElementById('facultySearch');
+    const startDateSearch = document.getElementById('startDateSearch');
+    const endDateSearch = document.getElementById('endDateSearch');
+
+    fullNameSearch.addEventListener('input', filterStudents);
+    facultySearch.addEventListener('input', filterStudents);
+    startDateSearch.addEventListener('input', filterStudents);
+    endDateSearch.addEventListener('input', filterStudents);
+
+    function filterStudents() {
+      const filterFullName = fullNameSearch.value.toLowerCase();
+      const filterFaculty = facultySearch.value.toLowerCase();
+      const filterStartDate = startDateSearch.value.toLowerCase();
+      const filterEndDate = endDateSearch.value.toLowerCase();
+
+      const filteredStudents = studentsList.filter((student) => {
+        return (
+          student.getFullName().toLowerCase().includes(filterFullName) &&
+          student.faculty.toLowerCase().includes(filterFaculty) &&
+          student.getYearsOfEducation().split('-')[0].includes(filterStartDate) &&
+          student.getYearsOfEducation().split('-')[1].includes(filterEndDate)
+        );
+      });
+      renderStudentsTable(filteredStudents);
+    }
+  }
+
+  function saveToLocalStorage() {
+    localStorage.setItem('studentsList', JSON.stringify(studentsList));
+  }
+
+  function getFromLocalStorage() {
+    if (localStorage.getItem('studentsList')) {
+      const students = JSON.parse(localStorage.getItem('studentsList'));
+      studentsList = students.map((student) => new Student(student.name, student.surname, student.patronymic, student.birthday, student.startDate, student.faculty));
+    } else {
+      students = [];
+    }
+  }
+
+  function mainFunction() {
+    addMaxAttribute();
+    submitOnForm();
+    sortStudentsTable();
+    filterStudents();
+    getFromLocalStorage();
+    renderStudentsTable(studentsList);
+  }
+
+  window.addEventListener('load', mainFunction);
 })();
 

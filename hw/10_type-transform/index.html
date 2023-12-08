@@ -41,12 +41,14 @@
       <div class="row mb-3 justify-content-center">
         <div class="col-4">
           <label for="birthday" class="form-label">Дата рождения</label>
-          <input type="date" id="birthday" class="form-control" aria-labelledby="birthdayHelpBlock" min="1900-01-01"
+          <input type="date" id="birthday" class="form-control" aria-labelledby="birthdayHelpBlock"
+                 min="1900-01-01"
                  data-required="true">
         </div>
         <div class="col-4">
           <label for="startDate" class="form-label">Год начала обучения</label>
-          <input type="number" id="startDate" class="form-control" aria-labelledby="startDateHelpBlock" min="2000"
+          <input type="number" id="startDate" class="form-control" aria-labelledby="startDateHelpBlock"
+                 min="2000"
                  data-required="true">
         </div>
         <div class="col-4">
@@ -63,21 +65,23 @@
     <div class="row mb-3">
       <div class="col-6">
         <label for="fullNameSearch" class="form-label">по ФИО:</label>
-        <input type="text" id="fullNameSearch" class="form-control" aria-labelledby="fullNameSearchHelpBlock">
+        <input type="text" id="fullNameSearch" class="form-control" aria-labelledby="fullNameSearchHelpBlock"
+               data-search>
       </div>
       <div class="col-6">
         <label for="facultySearch" class="form-label">по факультету:</label>
-        <input type="text" id="facultySearch" class="form-control" aria-labelledby="facultySearchHelpBlock">
+        <input type="text" id="facultySearch" class="form-control" aria-labelledby="facultySearchHelpBlock" data-search>
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-6">
         <label for="startDateSearch" class="form-label">по году начала обучения:</label>
-        <input type="text" id="startDateSearch" class="form-control" aria-labelledby="startDateSearchHelpBlock">
+        <input type="text" id="startDateSearch" class="form-control" aria-labelledby="startDateSearchHelpBlock"
+               data-search>
       </div>
       <div class="col-6">
         <label for="endDateSearch" class="form-label">по году окончания обучения:</label>
-        <input type="text" id="endDateSearch" class="form-control" aria-labelledby="endDateSearchHelpBlock">
+        <input type="text" id="endDateSearch" class="form-control" aria-labelledby="endDateSearchHelpBlock" data-search>
       </div>
     </div>
 
@@ -85,10 +89,10 @@
     <table class="table table-hover">
       <thead>
       <tr>
-        <th id="fullNameStudent" data-dir="up">ФИО студента</th>
-        <th id="facultyStudent" data-dir="up">Факультет</th>
-        <th id="birthdayStudent" data-dir="up">Дата рождения и возраст</th>
-        <th id="yearsEducationStudent" data-dir="up">Годы обучения и номер курса</th>
+        <th id="fullNameStudent">ФИО студента</th>
+        <th id="facultyStudent">Факультет</th>
+        <th id="birthdayStudent">Дата рождения и возраст</th>
+        <th id="yearsEducationStudent">Годы обучения и номер курса</th>
       </tr>
       </thead>
       <tbody class="table-group-divider" id="studentsTable">
