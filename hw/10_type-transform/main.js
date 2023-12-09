@@ -156,7 +156,7 @@
     const diffYears = startYear - birthdayYear;
 
     const allInputs = form.querySelectorAll('input');
-    const pattern = /^[а-яА-Яa-zA-Z\- ]+$/;
+    const pattern = /^[а-яА-ЯёЁa-zA-Z\- ]+$/;
     let isValidation = true;
 
     function createError(input, text) {
@@ -263,7 +263,7 @@
   }
 
   // Этап 6. Создайте функцию сортировки массива студентов и добавьте события кликов на соответствующие колонки.
-  function sortStudentsTable() {
+  function sortStudentsTable(array) {
     const table = document.querySelector('table');
     let direction = false;
 
@@ -277,34 +277,31 @@
     });
 
     function sortTable(columnId, direction) {
-      let copyStudentsList;
-
       switch (columnId) {
         case 'fullNameStudent':
-          copyStudentsList = sortingOrder('surname', direction);
+          sortingOrder('surname', direction);
           break;
         case 'facultyStudent':
-          copyStudentsList = sortingOrder('faculty', direction);
+          sortingOrder('faculty', direction);
           break;
         case 'birthdayStudent':
-          copyStudentsList = sortingOrder('birthday', direction);
+          sortingOrder('birthday', direction);
           break;
         case 'yearsEducationStudent':
-          copyStudentsList = sortingOrder('startDate', direction);
+          sortingOrder('startDate', direction);
           break;
         default:
           return;
       }
-      renderStudentsTable(copyStudentsList);
+      renderStudentsTable(array);
     }
 
     function sortingOrder(key, direction) {
-
-      // key - название переменной (name, surname и т.д.), также копируем исходный массив slice()
+      // key - название переменной (name, surname и т.д.)
       if (direction) {
-        return studentsList.slice().sort((a, b) => a[key].localeCompare(b[key]));
+        return array.sort((a, b) => a[key].localeCompare(b[key]));
       } else {
-        return studentsList.slice().sort((a, b) => b[key].localeCompare(a[key]));
+        return array.sort((a, b) => b[key].localeCompare(a[key]));
       }
     }
   }
@@ -336,6 +333,7 @@
         );
       });
       renderStudentsTable(filteredStudents);
+      sortStudentsTable(filteredStudents);
     }
   }
 
@@ -355,12 +353,12 @@
   function mainFunction() {
     addMaxAttribute();
     submitOnForm();
-    sortStudentsTable();
     filterStudents();
     getFromLocalStorage();
     renderStudentsTable(studentsList);
+    sortStudentsTable(studentsList);
   }
 
-  window.addEventListener('load', mainFunction);
+  window.addEventListener('DOMContentLoaded', mainFunction);
 })();
 
