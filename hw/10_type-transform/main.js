@@ -319,10 +319,10 @@
     endDateSearch.addEventListener('input', filterStudents);
 
     function filterStudents() {
-      const filterFullName = fullNameSearch.value.toLowerCase();
-      const filterFaculty = facultySearch.value.toLowerCase();
-      const filterStartDate = startDateSearch.value.toLowerCase();
-      const filterEndDate = endDateSearch.value.toLowerCase();
+      const filterFullName = fullNameSearch.value.toLowerCase().trim();
+      const filterFaculty = facultySearch.value.toLowerCase().trim();
+      const filterStartDate = startDateSearch.value.toLowerCase().trim();
+      const filterEndDate = endDateSearch.value.toLowerCase().trim();
 
       const filteredStudents = studentsList.filter((student) => {
         return (
