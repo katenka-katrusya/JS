@@ -278,31 +278,32 @@
     });
 
     function sortTable(columnId, direction) {
+      let copyStudents;
       switch (columnId) {
         case 'fullNameStudent':
-          sortingOrder('surname', direction);
+          copyStudents = sortingOrder('surname', direction);
           break;
         case 'facultyStudent':
-          sortingOrder('faculty', direction);
+          copyStudents = sortingOrder('faculty', direction);
           break;
         case 'birthdayStudent':
-          sortingOrder('birthday', direction);
+          copyStudents = sortingOrder('birthday', direction);
           break;
         case 'yearsEducationStudent':
-          sortingOrder('startDate', direction);
+          copyStudents = sortingOrder('startDate', direction);
           break;
         default:
           return;
       }
-      renderStudentsTable(array);
+      renderStudentsTable(copyStudents);
     }
 
     function sortingOrder(key, direction) {
       // key - название переменной (name, surname и т.д.)
       if (direction) {
-        return array.sort((a, b) => a[key].localeCompare(b[key]));
+        return array.slice().sort((a, b) => a[key].localeCompare(b[key]));
       } else {
-        return array.sort((a, b) => b[key].localeCompare(a[key]));
+        return array.slice().sort((a, b) => b[key].localeCompare(a[key]));
       }
     }
   }
@@ -345,9 +346,9 @@
   function getFromLocalStorage(array) {
     if (localStorage.getItem('studentsList')) {
       const students = JSON.parse(localStorage.getItem('studentsList'));
-      array = students.map((student) => new Student(student.name, student.surname, student.patronymic, student.birthday, student.startDate, student.faculty));
+      studentsList = students.map((student) => new Student(student.name, student.surname, student.patronymic, student.birthday, student.startDate, student.faculty));
     } else {
-      array = [];
+      studentsList = [];
     }
   }
 
