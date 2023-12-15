@@ -144,6 +144,7 @@
     studentsArray.forEach((student) => {
       tbody.append(getStudentItem(student));
     });
+    saveToLocalStorage(studentsArray);
   }
 
   // Этап 5. К форме добавления студента добавьте слушатель события отправки формы, в котором будет проверка введенных данных.Если проверка пройдет успешно, добавляйте объект с данными студентов в массив студентов и запустите функцию отрисовки таблицы студентов, созданную на этапе 4.
@@ -256,7 +257,7 @@
 
         studentsList.push(newStudent);
         renderStudentsTable(studentsList);
-        saveToLocalStorage();
+        saveToLocalStorage(studentsList);
         form.reset();
       }
     });
@@ -313,12 +314,12 @@
     const startDateSearch = document.getElementById('startDateSearch');
     const endDateSearch = document.getElementById('endDateSearch');
 
-    fullNameSearch.addEventListener('input', filterStudents);
-    facultySearch.addEventListener('input', filterStudents);
-    startDateSearch.addEventListener('input', filterStudents);
-    endDateSearch.addEventListener('input', filterStudents);
+    fullNameSearch.addEventListener('input', filteredArrayStudents);
+    facultySearch.addEventListener('input', filteredArrayStudents);
+    startDateSearch.addEventListener('input', filteredArrayStudents);
+    endDateSearch.addEventListener('input', filteredArrayStudents);
 
-    function filterStudents() {
+    function filteredArrayStudents() {
       const filterFullName = fullNameSearch.value.toLowerCase().trim();
       const filterFaculty = facultySearch.value.toLowerCase().trim();
       const filterStartDate = startDateSearch.value.toLowerCase().trim();
@@ -337,16 +338,16 @@
     }
   }
 
-  function saveToLocalStorage() {
-    localStorage.setItem('studentsList', JSON.stringify(studentsList));
+  function saveToLocalStorage(array) {
+    localStorage.setItem('studentsList', JSON.stringify(array));
   }
 
-  function getFromLocalStorage() {
+  function getFromLocalStorage(array) {
     if (localStorage.getItem('studentsList')) {
       const students = JSON.parse(localStorage.getItem('studentsList'));
-      studentsList = students.map((student) => new Student(student.name, student.surname, student.patronymic, student.birthday, student.startDate, student.faculty));
+      array = students.map((student) => new Student(student.name, student.surname, student.patronymic, student.birthday, student.startDate, student.faculty));
     } else {
-      students = [];
+      array = [];
     }
   }
 
@@ -354,9 +355,9 @@
     addMaxAttribute();
     submitOnForm();
     filterStudents();
-    getFromLocalStorage();
-    renderStudentsTable(studentsList);
+    getFromLocalStorage(studentsList);
     sortStudentsTable(studentsList);
+    renderStudentsTable(studentsList);
   }
 
   window.addEventListener('DOMContentLoaded', mainFunction);
