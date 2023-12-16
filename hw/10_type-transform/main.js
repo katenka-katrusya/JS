@@ -278,24 +278,24 @@
     });
 
     function sortTable(columnId, direction) {
-      let copyStudents;
+      let copyArr;
       switch (columnId) {
         case 'fullNameStudent':
-          copyStudents = sortingOrder('surname', direction);
+          copyArr = sortingOrder('surname', direction);
           break;
         case 'facultyStudent':
-          copyStudents = sortingOrder('faculty', direction);
+          copyArr = sortingOrder('faculty', direction);
           break;
         case 'birthdayStudent':
-          copyStudents = sortingOrder('birthday', direction);
+          copyArr = sortingOrder('birthday', direction);
           break;
         case 'yearsEducationStudent':
-          copyStudents = sortingOrder('startDate', direction);
+          copyArr = sortingOrder('startDate', direction);
           break;
         default:
           return;
       }
-      renderStudentsTable(copyStudents);
+      renderStudentsTable(copyArr);
     }
 
     function sortingOrder(key, direction) {
@@ -346,9 +346,9 @@
   function getFromLocalStorage(array) {
     if (localStorage.getItem('studentsList')) {
       const students = JSON.parse(localStorage.getItem('studentsList'));
-      studentsList = students.map((student) => new Student(student.name, student.surname, student.patronymic, student.birthday, student.startDate, student.faculty));
+      array = students.map((student) => new Student(student.name, student.surname, student.patronymic, student.birthday, student.startDate, student.faculty));
     } else {
-      studentsList = [];
+      array = [];
     }
   }
 
